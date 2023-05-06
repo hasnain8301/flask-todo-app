@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo | Flask Application</title>
+</head>
+<body>
+    <h1>TODO Application</h1>
+    <ul style="list-style-type: none">
+        {% for todo in todos %}
+        <li>
+            <input type="checkbox" name="done" {% if todo['done'] %}checked{% endif %} disabled>
+
+            
+            <span {% if todo['done'] %}style="text-decoration: line-through;"{% endif %}>{{todo['task']}}</span>
+
+            
+
+            <a href="{{url_for('EditTask', id=loop.index0) }}">Edit</a>
+            <a href="{{url_for('DeleteTask', id=loop.index0) }}">Delete</a>
+            
+            <a href="{{url_for('DoneTask', id=loop.index0) }}">
+                {% if todo['done'] %}
+                Mark Uncomplete
+                {% else %}
+                Mark Done
+                {% endif %}  
+            </a>          
+        </li>
+        {% endfor %}
+    </ul>
+    <form action="
+        {% if task %}
+            {{url_for('EditTask', id=task_id) }}
+        {% else %}
+            {{url_for('AddTask')}}
+        {% endif %}" method="POST">
+        <input type="text" name="add_todo" {% if task %}value="{{task['task']}}"{% endif %}>
+        <button type="submit">Add Task</button>
+    </form>
+</body>
+</html>
